@@ -1,7 +1,8 @@
 import discord
+from discord.ext import commands
 import numpy as np
 
-client = discord.Client()
+bot = commands.Bot(command_prefix = '!', description = "Nomic Helper Commands")
 
 def read_token():
     with open("token.txt", "r") as f:
@@ -10,24 +11,22 @@ def read_token():
 
 token = read_token()
 
-@client.event
+@bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('We have logged in as {0.user}'.format(bot))
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+@bot.command()
+async def hello(ctx):
+    """ Says 'Hello!' """
+    await ctx.send('Hello!')
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-
-@client.command()
+@bot.command()
 async def rand(ctx, lower, upper):
-	if type(upper) == int and type(lower) == int:
-		await.ctx.send("Generating a random number between "
-			+ lower + "and" + upper ":" + np.random.randint())
-	else:
-		await.ctx.send("Arguments must be integers.")
+    """ Generates a random integer between lower and upper, inclusive"""
+    try:
+        response = "Generating a random number between " + str(lower) + " and " + str(upper) + ". RNGesus declares " + str(np.random.randint(lower, upper))
+    except Exception:
+        response = "Arguments must be integers."
+    await ctx.send(response)
 
-client.run(token)
+bot.run(token)
