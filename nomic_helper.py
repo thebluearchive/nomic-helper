@@ -1,4 +1,5 @@
 import discord
+import numpy as np
 
 client = discord.Client()
 
@@ -21,5 +22,12 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
+@client.command()
+async def rand(ctx, lower, upper):
+	if type(upper) == int and type(lower) == int:
+		await.ctx.send("Generating a random number between "
+			+ lower + "and" + upper ":" + np.random.randint())
+	else:
+		await.ctx.send("Arguments must be integers.")
 
 client.run(token)
