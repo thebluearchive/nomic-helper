@@ -88,7 +88,7 @@ async def attack(ctx, player):
 
 @bot.command()
 async def poll(ctx):
-    """Testing bot's reaction capabilities"""
+    """Runs a poll, notifying when all eligible voters have voted."""
     print(ctx.author)
     print("Message =", ctx.message)
     await ctx.message.add_reaction('👍')
