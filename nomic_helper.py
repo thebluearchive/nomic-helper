@@ -60,4 +60,23 @@ async def spin(ctx):
     await ctx.send(response)
 
 
+@bot.command()
+async def attack(ctx, player):
+    """Spins the wheel!"""
+    x = np.random.uniform(0, 1)
+    print("x = ", x)
+    if x <= .40:
+        response = "Your attack fails! No damage is dealt."
+    elif x <= .70:
+        response = "Your attack is succesful! " + player + " loses 5 hp."
+    elif x <= .85:
+        response = "You strike hard! " + player + " loses 10 hp."
+    elif x <= .99:
+        response = "In one swift, clumsy movement, you manage to damage yourself for 15 hp."
+    elif x <= 1:
+        response = "Critical hit! Your opponent loses 100 hp!"
+    await ctx.send("You attack " + player + "!")
+    time.sleep(3)
+    await ctx.send(response)
+
 bot.run(token)
