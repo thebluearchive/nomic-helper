@@ -4,6 +4,8 @@ import numpy as np
 import time
 
 bot = commands.Bot(command_prefix = '!', description = "Nomic Helper Commands")
+NUM_PLAYERS = 2
+
 
 def read_token():
     with open("token.txt", "r") as f:
@@ -25,7 +27,7 @@ async def hello(ctx):
 async def rand(ctx, lower, upper):
     """ Generates a random integer between lower and upper, inclusive"""
     try:
-        number = np.random.randint(lower, upper)
+        number = np.random.randint(lower, upper + 1)
         await ctx.send("Generating a random number between " + str(lower) + " and " + str(upper) + "...")
         time.sleep(3)
         await ctx.send("RNGesus declares " + str(np.random.randint(lower, upper)) + ".")
@@ -79,4 +81,31 @@ async def attack(ctx, player):
     time.sleep(3)
     await ctx.send(response)
 
+# @bot.command()
+# async def react(ctx):
+#     """Testing bot's reaction capabilities"""
+#     print(ctx)
+#     print(ctx.author)
+#     print(ctx.message)
+#     await ctx.message.add_reaction('👍')
+#     await ctx.message.add_reaction('🤷')
+#     await ctx.message.add_reaction('👎')
+    
+#     # def reaction_count(reactions):
+#     #     """
+#     #     counts the total number of reactions
+#     #     """
+#     #     count = 0
+#     #     for reaction in reactions:
+#     #         count += reaction.count
+#     #     return count
+#     vote_dict = {player: False for player in Voter.members}
+#     while True:
+#         user, reaction = await bot.wait_for('reaction_add')
+#         print(user)
+#         print(reaction)
+#         # await ctx.send("@everyone All votes have been cast!")
+
+## add !turn
+## implemented through random.choice(humans)
 bot.run(token)
