@@ -4,7 +4,6 @@ import numpy as np
 import time
 
 bot = commands.Bot(command_prefix = '!', description = "Nomic Helper Commands")
-await bot.change_presence(activity=discord.Game(name="Nomic"))
 
 def read_token():
     with open("token.txt", "r") as f:
