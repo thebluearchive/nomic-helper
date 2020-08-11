@@ -71,6 +71,7 @@ async def attack(ctx, player):
     """Attacks another player!"""
     x = np.random.uniform(0, 1)
     print("x = ", x)
+    print("player =", player)
     if x <= .40:
         response = "Your attack fails! No damage is dealt."
     elif x <= .70:
@@ -85,31 +86,49 @@ async def attack(ctx, player):
     time.sleep(3)
     await ctx.send(response)
 
-# @bot.command()
-# async def react(ctx):
-#     """Testing bot's reaction capabilities"""
-#     print(ctx)
-#     print(ctx.author)
-#     print(ctx.message)
-#     await ctx.message.add_reaction('👍')
-#     await ctx.message.add_reaction('🤷')
-#     await ctx.message.add_reaction('👎')
-    
-#     # def reaction_count(reactions):
-#     #     """
-#     #     counts the total number of reactions
-#     #     """
-#     #     count = 0
-#     #     for reaction in reactions:
-#     #         count += reaction.count
-#     #     return count
-#     vote_dict = {player: False for player in Voter.members}
-#     while True:
-#         user, reaction = await bot.wait_for('reaction_add')
-#         print(user)
-#         print(reaction)
-#         # await ctx.send("@everyone All votes have been cast!")
+@bot.command()
+async def poll(ctx):
+    """Testing bot's reaction capabilities"""
+    print(ctx.author)
+    print("Message =", ctx.message)
+    await ctx.message.add_reaction('👍')
+    await ctx.message.add_reaction('🤷')
+    await ctx.message.add_reaction('👎')
 
-## add !turn
-## implemented through random.choice(humans)
+    for role in ctx.guild.roles:
+        if role.name == 'Voter':
+            voter_dict = {player.name: False for player in role.members}
+    print("voter_dict =", voter_dict)
+
+    def all_voted(voter_dict):
+        """Confirms if everyone has voted"""
+        all_have_voted = True
+        for entry in voter_dict.values():
+            if entry is False:
+                return False
+        return True
+
+    def next(ctx):
+        """Determines whose turn is next"""
+        for role in ctx.guild.roles:
+            if role.name == 'Voter':
+                players = [player.mention for player in role.members]
+        next_player = np.random.choice(players)
+        return next_player
+
+    while True:
+        reaction, user = await bot.wait_for('reaction_add')
+        print("message = ", reaction.message)
+        if ctx.message.id == reaction.message.id:
+            if user.name in voter_dict:
+                voter_dict[user.name] = True
+        if all_voted(voter_dict):
+            await ctx.send("@everyone All votes have been cast!")
+            voter_dict = {player.name: False for player in role.members}
+            next_player = next(ctx)
+            time.sleep(3)
+            await ctx.send(next_player + ", you're up!")
+            break
+    return
+
 bot.run(token)
