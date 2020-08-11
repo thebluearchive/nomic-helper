@@ -27,10 +27,14 @@ async def hello(ctx):
 async def rand(ctx, lower, upper):
     """ Generates a random integer between lower and upper, inclusive"""
     try:
-        number = np.random.randint(lower, upper + 1)
+        new_upper = int(upper) + 1
+        lower = int(lower)
+        print("lower = ", lower, "; upper =", new_upper)
+        number = np.random.randint(lower, new_upper)
+        print("number =", number)
         await ctx.send("Generating a random number between " + str(lower) + " and " + str(upper) + "...")
         time.sleep(3)
-        await ctx.send("RNGesus declares " + str(np.random.randint(lower, upper)) + ".")
+        await ctx.send("RNGesus declares " + str(number) + ".")
     except Exception:
         await ctx.send("Arguments must be integers, with the first integer lower than the next.")
 
