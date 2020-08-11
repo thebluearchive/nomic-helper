@@ -62,7 +62,7 @@ async def spin(ctx):
 
 @bot.command()
 async def attack(ctx, player):
-    """Spins the wheel!"""
+    """Attacks another player!"""
     x = np.random.uniform(0, 1)
     print("x = ", x)
     if x <= .40:
