@@ -93,6 +93,8 @@ async def poll(ctx):
     await ctx.message.add_reaction('🤷')
     await ctx.message.add_reaction('👎')
 
+    await ctx.send("@everyone Vote :angry:")
+
     for role in ctx.guild.roles:
         if role.name == 'Voter':
             voter_dict = {player.name: False for player in role.members}
@@ -109,7 +111,7 @@ async def poll(ctx):
     def next(ctx):
         """Determines whose turn is next"""
         for role in ctx.guild.roles:
-            if role.name == 'Voter':
+            if role.name == 'Humans (?)':
                 players = [player.mention for player in role.members]
         next_player = np.random.choice(players)
         return next_player
