@@ -1,1 +1,1 @@
-worker: python nomic_helper.py
+worker: python nomic_launcher.py
