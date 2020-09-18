@@ -31,13 +31,6 @@ class Poll(commands.Cog):
                     return False
             return True
 
-        def next(ctx):
-            """Determines whose turn is next"""
-            for role in ctx.guild.roles:
-                if role.name == 'Humans (?)':
-                    players = [player.mention for player in role.members]
-            next_player = np.random.choice(players)
-            return next_player
 
         while True:
             reaction, user = await self.bot.wait_for('reaction_add')
@@ -48,9 +41,6 @@ class Poll(commands.Cog):
             if all_voted(voter_dict):
                 await ctx.send("@everyone All votes have been cast!")
                 voter_dict = {player.name: False for player in role.members}
-                next_player = next(ctx)
-                time.sleep(3)
-                await ctx.send(next_player + ", you're up!")
                 break
         return
 
